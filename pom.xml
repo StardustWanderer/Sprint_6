@@ -2,20 +2,52 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Версия объектной модели Maven (всегда 4.0.0 для Maven 2 и 3) -->
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>untitled</artifactId>
+    <!-- Координаты проекта (GAV: Group, Artifact, Version) -->
+    <groupId>com.example</groupId>
+    <artifactId>sprint_6</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- Глобальные свойства проекта -->
     <properties>
+        <!-- Версия Java для компиляции исходного кода и запуска -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <!-- Явно задаем кодировку UTF-8, чтобы русские символы в тестах компилировались без ошибок -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- Зависимости проекта (библиотеки) -->
+    <dependencies>
+        <!-- Фреймворк для написания и запуска юнит-тестов (JUnit 4) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <!-- Scope "test" означает, что библиотека доступна только в папке src/test -->
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Библиотека для создания моков (Mock) и шпионов (Spy) -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.23.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- Конфигурация сборки и плагинов -->
     <build>
+        <!-- Путь к исходному коду приложения -->
         <sourceDirectory>src/main/java</sourceDirectory>
+
         <plugins>
+            <!-- Плагин для компиляции Java-кода -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -24,6 +56,40 @@
                     <source>11</source>
                     <target>11</target>
                 </configuration>
+            </plugin>
+
+            <!-- Плагин для запуска юнит-тестов при выполнении команд 'mvn test' или 'mvn verify' -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+
+            <!-- Плагин JaCoCo для анализа покрытия кода автотестами -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.15</version>
+
+                <executions>
+                    <!-- Шаг 1: Подготовка агента JaCoCo (подключается до выполнения тестов для сбора статистики) -->
+                    <execution>
+                        <id>preparing-jacoco</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Шаг 2: Генерация понятного HTML-отчета на основе собранных данных -->
+                    <execution>
+                        <id>creating-report</id>
+                        <!-- Генерация запускается на фазе 'test' при выполнении 'mvn test' -->
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
