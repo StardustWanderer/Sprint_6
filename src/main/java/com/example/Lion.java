@@ -7,7 +7,6 @@ public class Lion {
     private final Feline feline;
     boolean hasMane;
 
-
     public Lion(String sex, Feline feline) throws Exception {
         this.feline = feline;
 

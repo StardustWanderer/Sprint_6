@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -14,8 +13,7 @@ import java.util.List;
 public class CatTests {
 
     // Создаём мок изолированной зависимости Feline
-    @Mock
-    private Feline feline;
+    private final Feline feline = Mockito.mock(Feline.class);
 
     private Cat cat;
 
@@ -38,10 +36,12 @@ public class CatTests {
     @Test
     public void getFoodCallsEatMeat() throws Exception {
         List<String> expected = List.of("Животные", "Птицы", "Рыба");
+
         Mockito.when(feline.eatMeat()).thenReturn(expected);
 
         List<String> actual = cat.getFood();
 
         Assert.assertEquals(expected, actual);
+        Mockito.verify(feline).eatMeat();
     }
 }
