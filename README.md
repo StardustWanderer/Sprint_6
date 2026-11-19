@@ -97,7 +97,7 @@ target/site/jacoco/index.html
 
 Для дополнительного класса `AlexLion` также предусмотрены отдельные тесты.
 
-100% покрытия JaCoCo для Cat, Feline, Lion и AlexLion (можно проверить в HTML-отчёте JaCoCo).
+По результатам анализа отчёта JaCoCo все четыре класса — Cat, Feline, Lion и AlexLion — имеют 100% покрытия тестами.
 
 ---
 
